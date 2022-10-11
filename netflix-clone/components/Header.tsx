@@ -1,8 +1,28 @@
+import Link from "next/link"
+import { useEffect, useState } from "react"
 import { BiSearch } from "react-icons/bi"
+import { BsBell } from "react-icons/bs"
 
 function Header() {
+    const [isScrolled, setIsScrolled] = useState(false);
+    useEffect(()=>{
+        const handeScroll = () => {
+            if(window.scrollY > 0) {
+                setIsScrolled(true)
+            }else{
+                setIsScrolled(false)
+            }
+        }
+
+        window.addEventListener("scroll", handeScroll)
+
+        return () => {
+            window.removeEventListener("scroll", handeScroll)
+        }
+    },[])
+
   return (
-    <header>
+    <header className={`${isScrolled && "bg-[#141414]"}`}>
         <div className="flex items-center space-x-2 md:space-x-10">
             <img
             src="https://rb.gy/ulxxee"
@@ -20,8 +40,13 @@ function Header() {
             </ul>
         </div>
 
-        <div>
-            <BiSearch/>
+        <div className="flex items-center space-x-4">
+            <BiSearch className="hidden h-6 w-6 sm:inline text-sm font-light"/>
+            <p className="hidden lg:inline">Kids</p>
+            <BsBell className="h-6 w-6"/>
+            <Link href="/account">
+                <img src="https://rb.gy/g1pwyx" alt="" className="cursor-pointer rounded"/>
+            </Link>
         </div>
     </header>
   )
